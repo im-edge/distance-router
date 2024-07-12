@@ -2,9 +2,9 @@
 
 namespace gipfl\Tests\DistanceRouter;
 
-use gipfl\DistanceRouter\Route;
-use gipfl\DistanceRouter\RouteList;
-use gipfl\DistanceRouter\RoutingTable;
+use IMEdge\DistanceRouter\Route;
+use IMEdge\DistanceRouter\RouteList;
+use IMEdge\DistanceRouter\RoutingTable;
 use PHPUnit\Framework\TestCase;
 
 class RoutingTableTest extends TestCase

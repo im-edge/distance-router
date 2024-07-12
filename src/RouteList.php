@@ -1,6 +1,6 @@
 <?php
 
-namespace gipfl\DistanceRouter;
+namespace IMEdge\DistanceRouter;
 
 use gipfl\Json\JsonSerialization;
 use InvalidArgumentException;

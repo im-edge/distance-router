@@ -2,8 +2,8 @@
 
 namespace gipfl\Tests\DistanceRouter;
 
-use gipfl\DistanceRouter\Route;
-use gipfl\DistanceRouter\RouteList;
+use IMEdge\DistanceRouter\Route;
+use IMEdge\DistanceRouter\RouteList;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

@@ -2,7 +2,7 @@
 
 namespace gipfl\Tests\DistanceRouter;
 
-use gipfl\DistanceRouter\Route;
+use IMEdge\DistanceRouter\Route;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
