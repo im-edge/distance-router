@@ -61,7 +61,7 @@ class RouteList implements JsonSerialization
         if (! is_array($any)) {
             throw new RuntimeException('Cannot unserialize RouteList from ' . get_debug_type($any));
         }
-        $self = new static;
+        $self = new static();
         foreach ((array) $any as $route) {
             $self->addRoute(Route::fromSerialization($route));
         }
