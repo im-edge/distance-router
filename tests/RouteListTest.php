@@ -9,17 +9,17 @@ use PHPUnit\Framework\TestCase;
 
 class RouteListTest extends TestCase
 {
-    public function testRouteListFindsSpecificRoute()
+    public function testRouteListFindsSpecificRoute(): void
     {
         $list = new RouteList([
             new Route('target1.example.com', 'router1.example.com', 5),
             new Route('target2.example.com', 'router1.example.com', 3),
             new Route('target4.example.com', 'router1.example.com', 3),
         ]);
-        $this->assertEquals('router1.example.com', $list->getRouteTo('target1.example.com')->via);
+        $this->assertEquals('router1.example.com', $list->getRouteTo('target1.example.com')?->via);
     }
 
-    public function testRouteListGivesNullForMissingRoute()
+    public function testRouteListGivesNullForMissingRoute(): void
     {
         $list = new RouteList([
             new Route('target1.example.com', 'router1.example.com', 5),
@@ -29,7 +29,7 @@ class RouteListTest extends TestCase
         $this->assertNull($list->getRouteTo('target3.example.com'));
     }
 
-    public function testInitializingWithTheSameTargetTwiceFails()
+    public function testInitializingWithTheSameTargetTwiceFails(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new RouteList([
@@ -38,7 +38,7 @@ class RouteListTest extends TestCase
         ]);
     }
 
-    public function testRouteListCanBeSerialized()
+    public function testRouteListCanBeSerialized(): void
     {
         $list = new RouteList([
             new Route('target1.example.com', 'router1.example.com', 1),
@@ -55,7 +55,7 @@ class RouteListTest extends TestCase
         ]]), json_encode($list->jsonSerialize()));
     }
 
-    public function testRouteListCanBeUnSerialized()
+    public function testRouteListCanBeUnSerialized(): void
     {
         $list = RouteList::fromSerialization([(object) [
             'target'   => 'target1.example.com',
@@ -66,7 +66,7 @@ class RouteListTest extends TestCase
             'via'      => 'router2.example.com',
             'distance' => 3,
         ]]);
-        $this->assertEquals('router1.example.com', $list->getRouteTo('target1.example.com')->via);
-        $this->assertEquals(3, $list->getRouteTo('target2.example.com')->distance);
+        $this->assertEquals('router1.example.com', $list->getRouteTo('target1.example.com')?->via);
+        $this->assertEquals(3, $list->getRouteTo('target2.example.com')?->distance);
     }
 }

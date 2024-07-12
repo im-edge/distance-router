@@ -9,27 +9,27 @@ use PHPUnit\Framework\TestCase;
 
 class RoutingTableTest extends TestCase
 {
-    public function testEmptyTableFindsNoTarget()
+    public function testEmptyTableFindsNoTarget(): void
     {
         $table = new RoutingTable();
         $this->assertFalse($table->active->hasRouteTo('nowhere'));
     }
 
-    public function testMissingTargetGivesNull()
+    public function testMissingTargetGivesNull(): void
     {
         $table = new RoutingTable();
         $this->assertNull($table->active->getRouteTo('nowhere'));
     }
 
-    public function testValidTargetGivesCorrectRoute()
+    public function testValidTargetGivesCorrectRoute(): void
     {
         $table = new RoutingTable();
         $table->addCandidate(new Route('target.example.com', 'router.example.com', 3));
         $table->addCandidate(new Route('target.example.com', 'other.example.com', 7));
-        $this->assertEquals('router.example.com', $table->active->getRouteTo('target.example.com')->via);
+        $this->assertEquals('router.example.com', $table->active->getRouteTo('target.example.com')?->via);
     }
 
-    public function testRouteGivesFirstCandidateWithSameDistance()
+    public function testRouteGivesFirstCandidateWithSameDistance(): void
     {
         $table = new RoutingTable();
         $table->addCandidate(new Route('target.example.com', 'other.example.com', 7));
@@ -37,18 +37,18 @@ class RoutingTableTest extends TestCase
         $table->addCandidate(new Route('target.example.com', 'router2.example.com', 3));
         $table->removeCandidate(new Route('target.example.com', 'router1.example.com', 3));
         $table->addCandidate(new Route('target.example.com', 'router3.example.com', 3));
-        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target.example.com')->via);
+        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target.example.com')?->via);
     }
 
-    public function testRemovingUnknownCandidateDoesNotFail()
+    public function testRemovingUnknownCandidateDoesNotFail(): void
     {
         $table = new RoutingTable();
         $table->removeCandidate(new Route('target.example.com', 'router2.example.com', 3));
         $table->addCandidate(new Route('target.example.com', 'router1.example.com', 2));
-        $this->assertEquals(2, $table->active->getRouteTo('target.example.com')->distance);
+        $this->assertEquals(2, $table->active->getRouteTo('target.example.com')?->distance);
     }
 
-    public function testCandidatesCanBeAddedFromList()
+    public function testCandidatesCanBeAddedFromList(): void
     {
         $list = new RouteList([
             new Route('target1.example.com', 'other.example.com', 7),
@@ -56,10 +56,10 @@ class RoutingTableTest extends TestCase
         ]);
         $table = new RoutingTable();
         $table->addCandidatesFromList($list);
-        $this->assertEquals('other.example.com', $table->active->getRouteTo('target1.example.com')->via);
+        $this->assertEquals('other.example.com', $table->active->getRouteTo('target1.example.com')?->via);
     }
 
-    public function testMultipleRouteListsCanBeApplied()
+    public function testMultipleRouteListsCanBeApplied(): void
     {
         $list1 = new RouteList([
             new Route('target1.example.com', 'router1.example.com', 5),
@@ -74,14 +74,14 @@ class RoutingTableTest extends TestCase
         $table = new RoutingTable();
         $table->addCandidatesFromList($list1);
         $table->addCandidatesFromList($list2);
-        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target1.example.com')->via);
-        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target2.example.com')->via);
-        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target3.example.com')->via);
-        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target4.example.com')->via);
+        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target1.example.com')?->via);
+        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target2.example.com')?->via);
+        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target3.example.com')?->via);
+        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target4.example.com')?->via);
         $this->assertNull($table->active->getRouteTo('target5.example.com'));
     }
 
-    public function testRouteListDiffIsAppliedCorrectly()
+    public function testRouteListDiffIsAppliedCorrectly(): void
     {
         $list1 = new RouteList([
             new Route('target1.example.com', 'router1.example.com', 5),
@@ -101,15 +101,15 @@ class RoutingTableTest extends TestCase
         $table = new RoutingTable();
         $table->addCandidatesFromList($list1);
         $table->addCandidatesFromList($list2);
-        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target1.example.com')->via);
-        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target2.example.com')->via);
-        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target3.example.com')->via);
-        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target4.example.com')->via);
+        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target1.example.com')?->via);
+        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target2.example.com')?->via);
+        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target3.example.com')?->via);
+        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target4.example.com')?->via);
         $this->assertNull($table->active->getRouteTo('target5.example.com'));
         $table->applyDiff($list2, $list2new);
         $this->assertNull($table->active->getRouteTo('target3.example.com'));
-        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target1.example.com')->via);
-        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target2.example.com')->via);
-        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target6.example.com')->via);
+        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target1.example.com')?->via);
+        $this->assertEquals('router1.example.com', $table->active->getRouteTo('target2.example.com')?->via);
+        $this->assertEquals('router2.example.com', $table->active->getRouteTo('target6.example.com')?->via);
     }
 }

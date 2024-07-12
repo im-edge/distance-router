@@ -4,6 +4,7 @@ namespace IMEdge\DistanceRouter;
 
 use gipfl\Json\JsonSerialization;
 use InvalidArgumentException;
+use RuntimeException;
 
 class Route implements JsonSerialization
 {
@@ -42,7 +43,15 @@ class Route implements JsonSerialization
 
     public static function fromSerialization($any): Route
     {
-        return new static($any->target, $any->via, $any->distance);
+        if (! is_object($any)) {
+            throw new RuntimeException('Cannot unserialize Route from ' . get_debug_type($any));
+        }
+
+        return new static(
+            $any->target ?? throw new RuntimeException('Route target is required'),
+            $any->via ?? throw new RuntimeException('Route via is required'),
+            $any->distance ?? throw new RuntimeException('Route distance is required')
+        );
     }
 
     public function jsonSerialize(): object

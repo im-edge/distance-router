@@ -8,13 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase
 {
-    public function testZeroDistanceIsNotAllowed()
+    public function testZeroDistanceIsNotAllowed(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Route('target.example.com', 'router.example.com', 0);
     }
 
-    public function testEqualRoutesAreEqual()
+    public function testEqualRoutesAreEqual(): void
     {
         $this->assertTrue(
             (new Route('target.example.com', 'router.example.com', 1))
@@ -22,7 +22,7 @@ class RouteTest extends TestCase
         );
     }
 
-    public function testRoutesWithDifferentDistanceAreNotEqual()
+    public function testRoutesWithDifferentDistanceAreNotEqual(): void
     {
         $this->assertFalse(
             (new Route('target.example.com', 'router.example.com', 1))
@@ -30,7 +30,7 @@ class RouteTest extends TestCase
         );
     }
 
-    public function testRoutesWithDifferentViaAreNotEqual()
+    public function testRoutesWithDifferentViaAreNotEqual(): void
     {
         $this->assertFalse(
             (new Route('target1.example.com', 'router1.example.com', 1))
@@ -38,7 +38,7 @@ class RouteTest extends TestCase
         );
     }
 
-    public function testRoutesWithDifferentTargetAreNotEqual()
+    public function testRoutesWithDifferentTargetAreNotEqual(): void
     {
         $this->assertFalse(
             (new Route('target1.example.com', 'router.example.com', 1))
@@ -46,7 +46,7 @@ class RouteTest extends TestCase
         );
     }
 
-    public function testRouteCanBeSerialized()
+    public function testRouteCanBeSerialized(): void
     {
         $route = new Route('target.example.com', 'router.example.com', 1);
         $this->assertEquals((object) [
@@ -56,7 +56,7 @@ class RouteTest extends TestCase
         ], $route->jsonSerialize());
     }
 
-    public function testRouteCanBeUnSerialized()
+    public function testRouteCanBeUnSerialized(): void
     {
         $route = Route::fromSerialization((object) [
             'target' => 'target.example.com',

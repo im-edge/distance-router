@@ -15,7 +15,7 @@ class RoutingTable
         $this->active = new RouteList();
     }
 
-    public function addCandidate(Route $route)
+    public function addCandidate(Route $route): void
     {
         $this->candidates[$route->target] ??= [];
         $routes = &$this->candidates[$route->target];
@@ -26,14 +26,14 @@ class RoutingTable
         $this->active->setRoute(current($routes[$minDistance]));
     }
 
-    public function addCandidatesFromList(RouteList $list)
+    public function addCandidatesFromList(RouteList $list): void
     {
         foreach ($list->routes as $route) {
             $this->addCandidate($route);
         }
     }
 
-    public function removeCandidate(Route $route)
+    public function removeCandidate(Route $route): void
     {
         if (! isset($this->candidates[$route->target])) {
             return;
@@ -54,11 +54,14 @@ class RoutingTable
             $this->active->forgetTarget($route->target);
         } else {
             $minDistance = min(array_keys($routes));
-            $this->active->setRoute(current($routes[$minDistance]));
+            // Hint: this 'if' here satisfies PHPStan, but it is always true
+            if ($route = current($routes[$minDistance])) {
+                $this->active->setRoute($route);
+            }
         }
     }
 
-    public function applyDiff(RouteList $old, RouteList $new)
+    public function applyDiff(RouteList $old, RouteList $new): void
     {
         foreach ($old->routes as $route) {
             if ($newRoute = $new->getRouteTo($route->target)) {

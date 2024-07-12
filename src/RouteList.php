@@ -4,6 +4,7 @@ namespace IMEdge\DistanceRouter;
 
 use gipfl\Json\JsonSerialization;
 use InvalidArgumentException;
+use RuntimeException;
 
 class RouteList implements JsonSerialization
 {
@@ -13,6 +14,9 @@ class RouteList implements JsonSerialization
      */
     public array $routes = [];
 
+    /**
+     * @param Route[] $routes
+     */
     final public function __construct(array $routes = [])
     {
         foreach ($routes as $route) {
@@ -30,17 +34,17 @@ class RouteList implements JsonSerialization
         return isset($this->routes[$target]);
     }
 
-    public function forgetTarget(string $target)
+    public function forgetTarget(string $target): void
     {
         unset($this->routes[$target]);
     }
 
-    public function setRoute(Route $route)
+    public function setRoute(Route $route): void
     {
         $this->routes[$route->target] = $route;
     }
 
-    public function addRoute(Route $route)
+    public function addRoute(Route $route): void
     {
         if (isset($this->routes[$route->target])) {
             throw new InvalidArgumentException(sprintf(
@@ -54,6 +58,9 @@ class RouteList implements JsonSerialization
 
     public static function fromSerialization($any): RouteList
     {
+        if (! is_array($any)) {
+            throw new RuntimeException('Cannot unserialize RouteList from ' . get_debug_type($any));
+        }
         $self = new static;
         foreach ((array) $any as $route) {
             $self->addRoute(Route::fromSerialization($route));
@@ -62,6 +69,9 @@ class RouteList implements JsonSerialization
         return $self;
     }
 
+    /**
+     * @return Route[]
+     */
     public function jsonSerialize(): array
     {
         return array_values($this->routes);
