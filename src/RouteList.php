@@ -13,7 +13,7 @@ class RouteList implements JsonSerialization
      */
     public array $routes = [];
 
-    public function __construct(array $routes = [])
+    final public function __construct(array $routes = [])
     {
         foreach ($routes as $route) {
             $this->addRoute($route);
@@ -54,7 +54,7 @@ class RouteList implements JsonSerialization
 
     public static function fromSerialization($any): RouteList
     {
-        $self = new RouteList();
+        $self = new static;
         foreach ((array) $any as $route) {
             $self->addRoute(Route::fromSerialization($route));
         }

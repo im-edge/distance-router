@@ -14,6 +14,7 @@ class RoutingTable
     {
         $this->active = new RouteList();
     }
+
     public function addCandidate(Route $route)
     {
         $this->candidates[$route->target] ??= [];

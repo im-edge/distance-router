@@ -14,7 +14,7 @@ class Route implements JsonSerialization
     /** @readonly */
     public string $via;
 
-    public function __construct(string $target, string $via, int $distance)
+    final public function __construct(string $target, string $via, int $distance)
     {
         $this->target = $target;
         if ($distance > 0) {
@@ -42,7 +42,7 @@ class Route implements JsonSerialization
 
     public static function fromSerialization($any): Route
     {
-        return new Route($any->target, $any->via, $any->distance);
+        return new static($any->target, $any->via, $any->distance);
     }
 
     public function jsonSerialize(): object
