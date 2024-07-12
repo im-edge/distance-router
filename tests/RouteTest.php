@@ -1,6 +1,6 @@
 <?php
 
-namespace gipfl\Tests\DistanceRouter;
+namespace IMEdge\Tests\DistanceRouter;
 
 use IMEdge\DistanceRouter\Route;
 use InvalidArgumentException;
