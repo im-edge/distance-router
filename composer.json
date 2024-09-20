@@ -25,7 +25,7 @@
 
   "require": {
     "php": ">=8.1",
-    "gipfl/json": ">=0.2",
+    "imedge/json": ">=0.1",
     "ramsey/uuid": "^4",
     "squizlabs/php_codesniffer": "^3"
   },

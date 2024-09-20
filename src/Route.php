@@ -2,7 +2,7 @@
 
 namespace IMEdge\DistanceRouter;
 
-use gipfl\Json\JsonSerialization;
+use IMEdge\Json\JsonSerialization;
 use InvalidArgumentException;
 use RuntimeException;
 
